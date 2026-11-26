@@ -27,7 +27,7 @@ const Slot = React.forwardRef<
     merged.className = cn(slotProps.className, childProps.className);
   if (slotProps.style || childProps.style)
     merged.style = { ...slotProps.style, ...childProps.style };
-  const childRef = (children as any).ref ?? childProps.ref;
+  const childRef = childProps.ref;
   merged.ref = forwardedRef
     ? (node: HTMLElement | null) => {
         for (const ref of [forwardedRef, childRef]) {

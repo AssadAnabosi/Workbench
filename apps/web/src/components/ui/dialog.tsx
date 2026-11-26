@@ -62,7 +62,7 @@ function DialogContent({
       <DialogOverlay />
       <DialogContentPrimitive
         className={cn(
-          "z-50 m-auto grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg transition-[opacity,scale] duration-200 data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0 sm:rounded-lg",
+          "fixed top-1/2 left-1/2 z-50 m-0 grid w-[min(32rem,calc(100vw-2rem))]! max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg transition-[opacity,scale] duration-200 data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0 sm:rounded-lg",
           className
         )}
         {...props}

@@ -2,17 +2,21 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Avatar as AvatarPrimitive } from "radix-ui"
+import {
+  Avatar as AvatarRoot,
+  AvatarFallback as AvatarFallbackPrimitive,
+  AvatarImage as AvatarImagePrimitive,
+} from "@ui-sdk/react/avatar"
 
 function Avatar({
   className,
   size = "default",
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
+}: React.ComponentProps<typeof AvatarRoot> & {
   size?: "default" | "sm" | "lg"
 }) {
   return (
-    <AvatarPrimitive.Root
+    <AvatarRoot
       data-slot="avatar"
       data-size={size}
       className={cn(
@@ -27,9 +31,9 @@ function Avatar({
 function AvatarImage({
   className,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+}: React.ComponentProps<typeof AvatarImagePrimitive>) {
   return (
-    <AvatarPrimitive.Image
+    <AvatarImagePrimitive
       data-slot="avatar-image"
       className={cn("aspect-square size-full", className)}
       {...props}
@@ -40,9 +44,9 @@ function AvatarImage({
 function AvatarFallback({
   className,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+}: React.ComponentProps<typeof AvatarFallbackPrimitive>) {
   return (
-    <AvatarPrimitive.Fallback
+    <AvatarFallbackPrimitive
       data-slot="avatar-fallback"
       className={cn(
         "flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs",

@@ -1,4 +1,3 @@
-import { RadixDirection } from "@/components/shell/direction";
 import "./index.css";
 import i18n from "./i18n";
 import React from "react";
@@ -11,7 +10,7 @@ import { AuthProvider } from "@/providers/auth-provider";
 
 import App from "@/app";
 
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import BootFallback from "@/components/component/boot-fallback";
 import { bootstrapSession } from "@/lib/session";
 import { ErrorProvider } from "./providers/error-provider";
@@ -52,9 +51,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               }}
             >
               <React.Suspense fallback={<BootFallback />}>
-                <RadixDirection>
-                  <App />
-                </RadixDirection>
+                <App />
+
                 <Toaster />
               </React.Suspense>
             </BrowserRouter>

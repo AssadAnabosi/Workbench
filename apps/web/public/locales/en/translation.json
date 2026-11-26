@@ -250,7 +250,8 @@
   "Total spent in the selected range.": "Total spent in the selected range.",
   "Total received in the selected range.": "Total received in the selected range.",
   "Spent minus received in the selected range.": "Spent minus received in the selected range.",
-  "Spent minus received, all time.": "Spent minus received, all time.",
+  "Spent minus received, all time.": "Spent minus received, all time."
+,
   "Records": "Records",
   "Manage": "Manage",
   "Sidebar": "Sidebar",
@@ -374,5 +375,6 @@
   "Go to the next sidebar item": "Go to the next sidebar item",
   "Go to a page by its first letter": "Go to a page by its first letter",
   "Showing the filters from your last visit": "Showing the filters from your last visit",
-  "Reset": "Reset"
+  "Reset": "Reset",
+  "Notifications": "Notifications"
 }

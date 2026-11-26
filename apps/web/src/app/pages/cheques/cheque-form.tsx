@@ -3,7 +3,6 @@ import { useState } from "react";
 import { apiErrorCode, apiValidationIssues } from "@/lib/api-error";
 import { apiErrorText } from "@/lib/api-error";
 import { useTranslation } from "react-i18next";
-import { useFormatters } from "@/hooks/use-locale";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clearDraft, draftOf, useFormDraft } from "@/hooks/use-form-draft";
 import { useForm } from "react-hook-form";
@@ -11,7 +10,6 @@ import { ChequeType } from "@/lib/types";
 import {
   cn,
   getLastDayOfCurrentMonthDate,
-  stringToDate,
   toList,
 } from "@/lib/utils";
 import {
@@ -35,7 +33,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea as CB_ScrollArea } from "@/components/component/cb-scroll-area";
-import { Calendar } from "@/components/ui/calendar";
+import { DateField } from "@/components/ui/date-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Command,
@@ -53,7 +51,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/component/spinner";
 
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import ShekelIcon from "@/components/icons/shekel";
 
 type ChequeFormProps = {
@@ -65,7 +63,6 @@ type ChequeFormProps = {
 
 const ChequeForm = ({ cheque, defaults, onDone }: ChequeFormProps) => {
   const { t } = useTranslation();
-  const fmt = useFormatters();
   const { toast } = useToast();
   // a new record starts from the last draft; saving it forgets the draft
   const fresh = !cheque && !defaults?.serial;
@@ -92,7 +89,6 @@ const ChequeForm = ({ cheque, defaults, onDone }: ChequeFormProps) => {
 
   const { mutateAsync } = useChequeFormMutation();
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [calendarOpen, setCalenderOpen] = useState(false);
 
   const onSubmit = async (data: chequeFormSchemaType) => {
     try {
@@ -145,47 +141,16 @@ const ChequeForm = ({ cheque, defaults, onDone }: ChequeFormProps) => {
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>{t("Due Date")}</FormLabel>
-                <Popover
-                  open={calendarOpen}
-                  onOpenChange={setCalenderOpen}
-                  modal
-                >
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        disabled={isLoading}
-                        variant={"outline"}
-                        className={cn(
-                          "w-[245px] ps-3 text-start font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          fmt.date(stringToDate(field.value), "EEE, dd/LL/y")
-                        ) : (
-                          <span>{t("Pick a date")}</span>
-                        )}
-                        <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      disabled={isLoading}
-                      captionLayout="dropdown-buttons"
-                      fromYear={2019}
-                      toYear={new Date().getFullYear() + 10}
-                      defaultMonth={stringToDate(field.value)}
-                      mode="single"
-                      selected={stringToDate(field.value)}
-                      onSelect={(e) => {
-                        field.onChange(e);
-                        setCalenderOpen(false);
-                      }}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <FormControl>
+                  <DateField
+                    className="w-[245px]"
+                    disabled={isLoading}
+                    value={field.value}
+                    onChange={field.onChange}
+                    fromYear={2019}
+                    toYear={new Date().getFullYear() + 10}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

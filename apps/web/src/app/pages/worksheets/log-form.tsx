@@ -2,12 +2,11 @@ import { ShortcutKey } from "@/components/component/shortcut-key";
 import { useState } from "react";
 import { apiErrorCode, apiErrorText } from "@/lib/api-error";
 import { useTranslation } from "react-i18next";
-import { useFormatters } from "@/hooks/use-locale";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clearDraft, draftOf, useFormDraft } from "@/hooks/use-form-draft";
 import { useForm } from "react-hook-form";
 import { LogType } from "@/lib/types";
-import { cn, getToday, stringToDate, toList } from "@/lib/utils";
+import { cn, getToday, toList } from "@/lib/utils";
 import {
   logFormSchema,
   logFormSchemaType,
@@ -29,7 +28,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea as CB_ScrollArea } from "@/components/component/cb-scroll-area";
-import { Calendar } from "@/components/ui/calendar";
+import { DateField } from "@/components/ui/date-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Command,
@@ -48,7 +47,7 @@ import { Button } from "@/components/ui/button";
 
 import Spinner from "@/components/component/spinner";
 
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import ShekelIcon from "@/components/icons/shekel";
 
 type LogFormProps = {
@@ -61,7 +60,6 @@ type LogFormProps = {
 
 const LogForm = ({ log, defaults, onDone }: LogFormProps) => {
   const { t } = useTranslation();
-  const fmt = useFormatters();
   const { toast } = useToast();
   // a new record starts from the last draft; saving it forgets the draft
   const fresh = !log && !defaults?.worker && !defaults?.date;
@@ -93,7 +91,6 @@ const LogForm = ({ log, defaults, onDone }: LogFormProps) => {
 
   const { mutateAsync } = useLogFormMutation();
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [calendarOpen, setCalenderOpen] = useState(false);
 
   const onSubmit = async (data: logFormSchemaType) => {
     try {
@@ -130,43 +127,16 @@ const LogForm = ({ log, defaults, onDone }: LogFormProps) => {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>{t("Date")}</FormLabel>
-              <Popover open={calendarOpen} onOpenChange={setCalenderOpen} modal>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      disabled={log || isLoading ? true : false}
-                      variant={"outline"}
-                      className={cn(
-                        "w-[280px] ps-3 text-start font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        fmt.date(stringToDate(field.value), "EEE, dd/LL/y")
-                      ) : (
-                        <span>{t("Pick a date")}</span>
-                      )}
-                      <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    disabled={log || isLoading ? true : false}
-                    captionLayout="dropdown-buttons"
-                    fromYear={2024}
-                    toYear={new Date().getFullYear() + 5}
-                    defaultMonth={stringToDate(field.value)}
-                    mode="single"
-                    selected={stringToDate(field.value)}
-                    onSelect={(e) => {
-                      field.onChange(e);
-                      setCalenderOpen(false);
-                    }}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <FormControl>
+                <DateField
+                  className="w-[280px]"
+                  disabled={log || isLoading ? true : false}
+                  value={field.value}
+                  onChange={field.onChange}
+                  fromYear={2024}
+                  toYear={new Date().getFullYear() + 5}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

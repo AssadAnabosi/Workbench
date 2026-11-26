@@ -376,5 +376,9 @@
   "Go to a page by its first letter": "الانتقال إلى صفحة بحرفها الأول",
   "Showing the filters from your last visit": "عرض الفلاتر من زيارتك الأخيرة",
   "Reset": "إعادة تعيين",
-  "Notifications": "الإشعارات"
+  "Notifications": "الإشعارات",
+  "Previous month": "الشهر السابق",
+  "Next month": "الشهر التالي",
+  "Start date": "تاريخ البداية",
+  "End date": "تاريخ النهاية"
 }

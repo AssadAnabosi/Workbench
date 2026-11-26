@@ -2,13 +2,12 @@ import { ShortcutKey } from "@/components/component/shortcut-key";
 import { useState } from "react";
 import { apiErrorText } from "@/lib/api-error";
 import { useTranslation } from "react-i18next";
-import { useFormatters } from "@/hooks/use-locale";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clearDraft, draftOf, useFormDraft } from "@/hooks/use-form-draft";
 import { useForm } from "react-hook-form";
 import { BillType } from "@/lib/types";
 
-import { cn, getToday, stringToDate } from "@/lib/utils";
+import { getToday } from "@/lib/utils";
 import {
   billFormSchema,
   billFormSchemaType,
@@ -23,12 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { DateField } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { ResponsiveDialogFooter } from "@/components/ui/responsive-dialog";
 import { useToast } from "@/components/ui/use-toast";
@@ -36,7 +30,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Spinner from "@/components/component/spinner";
 
-import { CalendarIcon } from "lucide-react";
 import ShekelIcon from "@/components/icons/shekel";
 import TypeToggle from "./type-toggle";
 
@@ -59,9 +52,7 @@ type BillFormProps = {
 
 const BillForm = ({ bill, defaults, onDone }: BillFormProps) => {
   const { t } = useTranslation();
-  const fmt = useFormatters();
   const { toast } = useToast();
-  const [calendarOpen, setCalenderOpen] = useState(false);
   // a new record starts from the last draft; saving it forgets the draft
   const fresh = !bill && !defaults?.type && !defaults?.amount;
   const base = {
@@ -108,43 +99,16 @@ const BillForm = ({ bill, defaults, onDone }: BillFormProps) => {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>{t("Date")}</FormLabel>
-              <Popover open={calendarOpen} onOpenChange={setCalenderOpen} modal>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      disabled={isLoading}
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] ps-3 text-start font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        fmt.date(stringToDate(field.value), "EEE, dd/LL/y")
-                      ) : (
-                        <span>{t("Pick a date")}</span>
-                      )}
-                      <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    disabled={isLoading}
-                    captionLayout="dropdown-buttons"
-                    fromYear={2024}
-                    toYear={new Date().getFullYear() + 5}
-                    defaultMonth={stringToDate(field.value)}
-                    mode="single"
-                    selected={stringToDate(field.value)}
-                    onSelect={(e) => {
-                      field.onChange(e);
-                      setCalenderOpen(false);
-                    }}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <FormControl>
+                <DateField
+                  className="w-[240px]"
+                  disabled={isLoading}
+                  value={field.value}
+                  onChange={field.onChange}
+                  fromYear={2024}
+                  toYear={new Date().getFullYear() + 5}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

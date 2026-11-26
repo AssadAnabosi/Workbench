@@ -1,10 +1,13 @@
 name: Deploy landing
 
+# Runs only when the landing app or what installs and builds it changes. It doesn't import
+# packages/shared, so shared changes don't start it (docs/ci.md#deploy-landing).
 on:
   push:
     branches: [main]
     paths:
       - apps/landing/**
+      - package.json
       - bun.lock
       - .github/workflows/deploy-landing.yml
   workflow_dispatch:
@@ -20,25 +23,25 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v7.0.1
+      - uses: oven-sh/setup-bun@v2.2.0
         with:
           bun-version: 1.3.4
       - run: bun install --frozen-lockfile
       - run: bun run --cwd apps/landing build
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: apps/landing/dist
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # The custom domain is set in Settings > Pages, so it stays out of the repo.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5.0.1

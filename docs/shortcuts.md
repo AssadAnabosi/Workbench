@@ -5,7 +5,7 @@ On macOS use `⌘` where this page says `Ctrl`.
 ## Shortcuts
 
 | Keys | Action |
-| --- | --- |
+| -- | -- |
 | `Ctrl` + `K` | Open or close the command palette |
 | `Ctrl` + `\` or `Ctrl` + `B` | Open or close the sidebar |
 | `?` (or `؟`) | Show the list of shortcuts (also in the palette as **Keyboard shortcuts**) |
@@ -22,7 +22,7 @@ On macOS use `⌘` where this page says `Ctrl`.
 The palette searches pages, creates records and switches the theme and language. Type in it:
 
 | Type | Result |
-| --- | --- |
+| -- | -- |
 | `c123` | **Add cheque with serial 123** (first result): opens the new cheque form with the serial filled in and the value field focused. Below it, **Search cheques with serial 123** |
 | `b250` | Adds a **spent** bill of 250: the form opens with the amount and type filled in and the description field focused |
 | `b-250` | The same, as a **received** bill |

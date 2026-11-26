@@ -1,0 +1,4 @@
+# Markdown formatting for docs/ and the root *.md files (.github/workflows/docs.yml).
+wrap = "keep"
+number = true
+end_of_line = "lf"

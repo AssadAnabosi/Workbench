@@ -5,7 +5,7 @@ A fresh local database comes with demo data, so every screen has something in it
 ## Getting it
 
 | How you run the app | What happens |
-| --- | --- |
+| -- | -- |
 | `bun run dev` (Docker) | The `migrate` service seeds the admin and the demo data on every start |
 | Native | `bun run db:migrate:local && bun run db:seed:local && bun run db:seed:dev` |
 | `bun run db:reset:local` | Wipes the local database and seeds everything again |
@@ -23,7 +23,7 @@ Only rows whose id starts with `dec0de00-` are touched (they are real UUIDs, bec
 Nothing is hard-coded to a year or a month. Dates are computed from the current UTC day, so the data always looks current:
 
 | Data | Where it lands |
-| --- | --- |
+| -- | -- |
 | Worksheets | From the 1st of the month before last, up to and including today, every day except Friday (the day off) |
 | Bills | Every day of the last 60 days, up to today |
 | Cheques | From 55 days ago to 66 days ahead: some overdue, two due today, several this week, the rest in the next two months |
@@ -33,7 +33,7 @@ So on 3 January it fills November, December and the first days of January; on 15
 ## Logins
 
 | Username | Role | Language | Password |
-| --- | --- | --- | --- |
+| -- | -- | -- | -- |
 | `admin` | Administrator | Arabic | `ADMIN_PASSWORD` in your `.dev.vars` (`change-me-please-123` in `.dev.vars.example`) |
 | `moderator` | Moderator | English | `dev-password-123` |
 | `spectator` | Spectator | English | `dev-password-123` |

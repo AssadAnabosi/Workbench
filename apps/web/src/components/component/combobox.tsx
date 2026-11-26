@@ -9,6 +9,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -65,7 +66,7 @@ const Combobox = ({
           <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full min-w-(--radix-popper-anchor-width) p-0 md:w-[335px]">
+      <PopoverContent className="w-full min-w-(--anchor-width) p-0 md:w-[335px]">
         <Command>
           <CommandInput
             className="text-md"
@@ -74,29 +75,31 @@ const Combobox = ({
             onValueChange={setQuery}
           />
           <CommandEmpty>{t("No matching results")}</CommandEmpty>
-          <CB_ScrollArea>
-            <CommandGroup>
-              {shown.map((item) => (
-                <CommandItem
-                  value={item.label}
-                  key={item.value}
-                  onSelect={() => {
-                    setFilter(item.value === filter ? "" : item.value);
-                    setOpen(false);
-                  }}
-                  className="min-w-(--radix-popper-anchor-width)"
-                >
-                  <Check
-                    className={cn(
-                      "me-2 h-4 w-4",
-                      filter === item.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {item.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CB_ScrollArea>
+          <CommandList className="max-h-none overflow-visible">
+            <CB_ScrollArea>
+              <CommandGroup>
+                {shown.map((item) => (
+                  <CommandItem
+                    value={item.label}
+                    key={item.value}
+                    onSelect={() => {
+                      setFilter(item.value === filter ? "" : item.value);
+                      setOpen(false);
+                    }}
+                    className="min-w-(--anchor-width)"
+                  >
+                    <Check
+                      className={cn(
+                        "me-2 h-4 w-4",
+                        filter === item.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {item.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CB_ScrollArea>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>

@@ -37,6 +37,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -244,33 +245,35 @@ const LogForm = ({ log, defaults, onDone }: LogFormProps) => {
                         disabled={log || isLoading ? true : false}
                       />
                       <CommandEmpty>{t("No matching results")}</CommandEmpty>
-                      <CB_ScrollArea>
-                        <CommandGroup>
-                          {workers.map((worker) => (
-                            <CommandItem
-                              className="w-[98%]"
-                              value={worker.label}
-                              key={worker.value}
-                              onSelect={() => {
-                                logForm.getValues("worker") === worker.value
-                                  ? logForm.setValue("worker", "")
-                                  : logForm.setValue("worker", worker.value);
-                                setPopoverOpen(false);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "me-2 h-4 w-4",
-                                  worker.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {worker.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CB_ScrollArea>
+                      <CommandList className="max-h-none overflow-visible">
+                        <CB_ScrollArea>
+                          <CommandGroup>
+                            {workers.map((worker) => (
+                              <CommandItem
+                                className="w-[98%]"
+                                value={worker.label}
+                                key={worker.value}
+                                onSelect={() => {
+                                  logForm.getValues("worker") === worker.value
+                                    ? logForm.setValue("worker", "")
+                                    : logForm.setValue("worker", worker.value);
+                                  setPopoverOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "me-2 h-4 w-4",
+                                    worker.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {worker.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CB_ScrollArea>
+                      </CommandList>
                     </Command>
                   </PopoverContent>
                 </Popover>

@@ -300,6 +300,8 @@ export function CommandPalette() {
         <span className="sr-only md:hidden">{t("Search...")}</span>
       </Button>
       <CommandDialog
+        query={query}
+        onQueryChange={setQuery}
         open={open}
         onOpenChange={(next) => {
           setOpen(next);
@@ -312,8 +314,6 @@ export function CommandPalette() {
         </DialogDescription>
         <CommandInput
           placeholder={t("Search...")}
-          value={query}
-          onValueChange={setQuery}
         />
         <CommandList>
           {logoutFirst && <CommandGroup forceMount>{logoutItem}</CommandGroup>}

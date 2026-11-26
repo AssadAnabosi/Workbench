@@ -43,6 +43,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -243,41 +244,47 @@ const ChequeForm = ({ cheque, defaults, onDone }: ChequeFormProps) => {
                         placeholder={t("Search...")}
                       />
                       <CommandEmpty>{t("No matching results")}</CommandEmpty>
-                      <CB_ScrollArea>
-                        <CommandGroup>
-                          {payees.map((payee) => (
-                            <CommandItem
-                              className={cn(
-                                "w-[98%]",
-                                !payee.active
-                                  ? "text-muted-foregroundF opacity-50"
-                                  : ""
-                              )}
-                              disabled={!payee.active}
-                              value={payee.label}
-                              key={payee.value}
-                              onSelect={() => {
-                                if (payee.active) {
-                                  chequeForm.getValues("payee") === payee.value
-                                    ? chequeForm.setValue("payee", "")
-                                    : chequeForm.setValue("payee", payee.value);
-                                }
-                                setPopoverOpen(false);
-                              }}
-                            >
-                              <Check
+                      <CommandList className="max-h-none overflow-visible">
+                        <CB_ScrollArea>
+                          <CommandGroup>
+                            {payees.map((payee) => (
+                              <CommandItem
                                 className={cn(
-                                  "me-2 h-4 w-4",
-                                  payee.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
+                                  "w-[98%]",
+                                  !payee.active
+                                    ? "text-muted-foregroundF opacity-50"
+                                    : ""
                                 )}
-                              />
-                              {payee.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CB_ScrollArea>
+                                disabled={!payee.active}
+                                value={payee.label}
+                                key={payee.value}
+                                onSelect={() => {
+                                  if (payee.active) {
+                                    chequeForm.getValues("payee") ===
+                                    payee.value
+                                      ? chequeForm.setValue("payee", "")
+                                      : chequeForm.setValue(
+                                          "payee",
+                                          payee.value
+                                        );
+                                  }
+                                  setPopoverOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "me-2 h-4 w-4",
+                                    payee.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {payee.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CB_ScrollArea>
+                      </CommandList>
                     </Command>
                   </PopoverContent>
                 </Popover>

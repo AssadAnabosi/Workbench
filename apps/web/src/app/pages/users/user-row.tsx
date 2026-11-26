@@ -8,7 +8,6 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-  TooltipProvider,
   Tooltip,
   TooltipTrigger,
   TooltipContent,
@@ -92,7 +91,6 @@ const UserRow = ({ user }: Props) => {
       </TableCell>
       <TableCell className="hidden w-max text-end lg:table-cell">
         {canManageUsers && (
-          <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -110,7 +108,6 @@ const UserRow = ({ user }: Props) => {
                 <p>{t("Edit")}</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
         )}
       </TableCell>
     </TableRow>

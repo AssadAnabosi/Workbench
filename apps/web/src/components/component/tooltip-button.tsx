@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -19,7 +18,6 @@ type Props = Omit<ComponentProps<typeof Button>, "aria-label"> & {
  */
 export default function TooltipButton({ label, children, ...props }: Props) {
   return (
-    <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button aria-label={label} {...props}>
@@ -30,6 +28,5 @@ export default function TooltipButton({ label, children, ...props }: Props) {
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>
-    </TooltipProvider>
   );
 }

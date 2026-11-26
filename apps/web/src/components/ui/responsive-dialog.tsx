@@ -62,7 +62,7 @@ type RootProps = React.ComponentProps<typeof Dialog>;
 
 const ResponsiveDialog = (props: RootProps) => {
   const isDesktop = useIsDesktop();
-  const Root = isDesktop ? Dialog : Drawer;
+  const Root = (isDesktop ? Dialog : Drawer) as typeof Dialog;
   return (
     <DesktopContext.Provider value={isDesktop}>
       <Root {...props} />
@@ -75,14 +75,14 @@ const useDesktop = () => React.useContext(DesktopContext);
 const ResponsiveDialogTrigger = (
   props: React.ComponentProps<typeof DialogTrigger>
 ) => {
-  const Trigger = useDesktop() ? DialogTrigger : DrawerTrigger;
+  const Trigger = (useDesktop() ? DialogTrigger : DrawerTrigger) as typeof DialogTrigger;
   return <Trigger {...props} />;
 };
 
 const ResponsiveDialogClose = (
   props: React.ComponentProps<typeof DialogClose>
 ) => {
-  const Close = useDesktop() ? DialogClose : DrawerClose;
+  const Close = (useDesktop() ? DialogClose : DrawerClose) as typeof DialogClose;
   return <Close {...props} />;
 };
 
@@ -95,14 +95,17 @@ const ResponsiveDialogContent = ({
     return (
       <DialogContent className={cn("sm:max-w-[425px]", className)} {...props}>
         <DialogShortcuts />
-        {children}
+        {children as React.ReactNode}
       </DialogContent>
     );
   }
   return (
-    <DrawerContent className={className} {...props}>
+    <DrawerContent
+      className={className as string | undefined}
+      {...(props as object)}
+    >
       <DialogShortcuts />
-      {children}
+      {children as React.ReactNode}
     </DrawerContent>
   );
 };
@@ -118,14 +121,14 @@ const ResponsiveDialogHeader = ({
 const ResponsiveDialogTitle = (
   props: React.ComponentProps<typeof DialogTitle>
 ) => {
-  const Title = useDesktop() ? DialogTitle : DrawerTitle;
+  const Title = (useDesktop() ? DialogTitle : DrawerTitle) as typeof DialogTitle;
   return <Title {...props} />;
 };
 
 const ResponsiveDialogDescription = (
   props: React.ComponentProps<typeof DialogDescription>
 ) => {
-  const Description = useDesktop() ? DialogDescription : DrawerDescription;
+  const Description = (useDesktop() ? DialogDescription : DrawerDescription) as typeof DialogDescription;
   return <Description {...props} />;
 };
 

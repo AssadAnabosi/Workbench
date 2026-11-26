@@ -1,32 +1,56 @@
 import * as React from "react";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
+import {
+  Popover,
+  PopoverClose,
+  PopoverContent as PopoverContentPrimitive,
+  PopoverDescription,
+  PopoverTitle,
+  PopoverTrigger as PopoverTriggerPrimitive,
+} from "@ui-sdk/react/popover";
 
 import { cn } from "@/lib/utils";
+import { asChildProps } from "@/lib/as-child";
 
-const Popover = PopoverPrimitive.Root;
+function PopoverTrigger({
+  asChild,
+  children,
+  ...props
+}: React.ComponentProps<typeof PopoverTriggerPrimitive> & {
+  asChild?: boolean;
+}) {
+  return (
+    <PopoverTriggerPrimitive {...props} {...asChildProps(asChild, children)} />
+  );
+}
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
-
-const PopoverContent = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = "center", side = "bottom", sideOffset = 4, avoidCollisions = true, collisionPadding = 8, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
-    <PopoverPrimitive.Content
-      ref={ref}
+function PopoverContent({
+  className,
+  align = "center",
+  side = "bottom",
+  sideOffset = 4,
+  collisionPadding = 8,
+  ...props
+}: React.ComponentProps<typeof PopoverContentPrimitive>) {
+  return (
+    <PopoverContentPrimitive
       align={align}
       side={side}
       sideOffset={sideOffset}
-      avoidCollisions={avoidCollisions}
       collisionPadding={collisionPadding}
       className={cn(
-        "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        "z-50 w-72 origin-(--transform-origin) rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden transition-[opacity,scale] duration-150 data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0 motion-reduce:transition-none",
         className
       )}
       {...props}
     />
-  </PopoverPrimitive.Portal>
-));
-PopoverContent.displayName = PopoverPrimitive.Content.displayName;
+  );
+}
 
-export { Popover, PopoverTrigger, PopoverContent };
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+  PopoverTitle,
+  PopoverDescription,
+};

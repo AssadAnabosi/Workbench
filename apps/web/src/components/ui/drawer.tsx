@@ -1,92 +1,54 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Drawer as DrawerPrimitive } from "vaul"
+import { asChildProps } from "@/lib/as-child"
+import {
+  Drawer as DrawerPrimitive,
+  DrawerBackdrop,
+  DrawerClose as DrawerClosePrimitive,
+  DrawerContent as DrawerContentPrimitive,
+  DrawerDescription as DrawerDescriptionPrimitive,
+  DrawerTitle as DrawerTitlePrimitive,
+  DrawerTrigger as DrawerTriggerPrimitive,
+} from "@ui-sdk/react/drawer"
 
-// vaul's own input repositioning misplaces the drawer on iOS (notably in an installed PWA), so
-// DrawerContent follows the visual viewport itself instead.
-function Drawer({
+const Drawer = DrawerPrimitive
+
+function DrawerTrigger({
+  asChild,
+  children,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) {
+}: React.ComponentProps<typeof DrawerTriggerPrimitive> & { asChild?: boolean }) {
   return (
-    <DrawerPrimitive.Root
-      data-slot="drawer"
-      repositionInputs={false}
+    <DrawerTriggerPrimitive
+      data-slot="drawer-trigger"
       {...props}
+      {...asChildProps(asChild, children)}
     />
   )
 }
 
-/**
- * Keeps a bottom drawer above the on-screen keyboard: --kb is how far the keyboard covers the
- * layout viewport, --vvh the height that is left. A focused field is scrolled into view.
- */
-function useKeyboardAvoidance(ref: React.RefObject<HTMLElement | null>) {
-  React.useEffect(() => {
-    const el = ref.current
-    const vv = window.visualViewport
-    if (!el || !vv) return
-    let timer: ReturnType<typeof setTimeout> | undefined
-    const update = () => {
-      const covered = Math.max(0, window.innerHeight - vv.height - vv.offsetTop)
-      el.style.setProperty("--kb", `${covered}px`)
-      el.style.setProperty("--vvh", `${vv.height}px`)
-    }
-    const reveal = (e: FocusEvent) => {
-      const target = e.target
-      if (
-        !(target instanceof HTMLElement) ||
-        !/^(input|textarea|select)$/i.test(target.tagName)
-      )
-        return
-      clearTimeout(timer)
-      // wait for the keyboard to finish sliding in
-      timer = setTimeout(() => {
-        update()
-        target.scrollIntoView({ block: "center", behavior: "smooth" })
-      }, 350)
-    }
-    update()
-    vv.addEventListener("resize", update)
-    vv.addEventListener("scroll", update)
-    el.addEventListener("focusin", reveal)
-    return () => {
-      clearTimeout(timer)
-      vv.removeEventListener("resize", update)
-      vv.removeEventListener("scroll", update)
-      el.removeEventListener("focusin", reveal)
-    }
-  }, [ref])
-}
-
-function DrawerTrigger({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
-  return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
-}
-
-function DrawerPortal({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
-}
-
 function DrawerClose({
+  asChild,
+  children,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Close>) {
-  return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
+}: React.ComponentProps<typeof DrawerClosePrimitive> & { asChild?: boolean }) {
+  return (
+    <DrawerClosePrimitive
+      data-slot="drawer-close"
+      {...props}
+      {...asChildProps(asChild, children)}
+    />
+  )
 }
 
 function DrawerOverlay({
   className,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
+}: React.ComponentProps<typeof DrawerBackdrop>) {
   return (
-    <DrawerPrimitive.Overlay
+    <DrawerBackdrop
       data-slot="drawer-overlay"
-      className={cn(
-        "fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0",
-        className
-      )}
+      className={cn("bg-black/50", className)}
       {...props}
     />
   )
@@ -96,29 +58,26 @@ function DrawerContent({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Content>) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  useKeyboardAvoidance(ref)
+}: React.ComponentProps<typeof DrawerContentPrimitive>) {
   return (
-    <DrawerPortal data-slot="drawer-portal">
+    <>
       <DrawerOverlay />
-      <DrawerPrimitive.Content
-        ref={ref}
+      <DrawerContentPrimitive
         data-slot="drawer-content"
         className={cn(
-          "group/drawer-content fixed z-50 flex h-auto flex-col bg-background",
-          "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b",
-          "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-[var(--kb,0px)] data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[min(80vh,calc(var(--vvh,100vh)-1rem))] data-[vaul-drawer-direction=bottom]:pb-[env(safe-area-inset-bottom)] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
-          "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
-          "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
+          "group/drawer-content flex h-auto flex-col bg-background",
+          "data-[side=top]:max-h-[80vh] data-[side=top]:rounded-b-lg data-[side=top]:border-b",
+          "data-[side=bottom]:max-h-[min(80vh,calc(var(--visual-viewport-height,100vh)-1rem))] data-[side=bottom]:pb-[env(safe-area-inset-bottom)] data-[side=bottom]:rounded-t-lg data-[side=bottom]:border-t",
+          "data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:sm:max-w-sm",
+          "data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:sm:max-w-sm",
           className
         )}
         {...props}
       >
-        <div className="mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
-        {children}
-      </DrawerPrimitive.Content>
-    </DrawerPortal>
+        <div className="mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full bg-muted group-data-[side=bottom]/drawer-content:block" />
+        {children as React.ReactNode}
+      </DrawerContentPrimitive>
+    </>
   )
 }
 
@@ -127,7 +86,7 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="drawer-header"
       className={cn(
-        "flex flex-col gap-0.5 p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center md:gap-1.5 md:text-start",
+        "flex flex-col gap-0.5 p-4 group-data-[side=bottom]/drawer-content:text-center group-data-[side=top]/drawer-content:text-center md:gap-1.5 md:text-start",
         className
       )}
       {...props}
@@ -148,9 +107,9 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
 function DrawerTitle({
   className,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Title>) {
+}: React.ComponentProps<typeof DrawerTitlePrimitive>) {
   return (
-    <DrawerPrimitive.Title
+    <DrawerTitlePrimitive
       data-slot="drawer-title"
       className={cn("font-semibold text-foreground", className)}
       {...props}
@@ -161,9 +120,9 @@ function DrawerTitle({
 function DrawerDescription({
   className,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Description>) {
+}: React.ComponentProps<typeof DrawerDescriptionPrimitive>) {
   return (
-    <DrawerPrimitive.Description
+    <DrawerDescriptionPrimitive
       data-slot="drawer-description"
       className={cn("text-sm text-muted-foreground", className)}
       {...props}
@@ -173,7 +132,6 @@ function DrawerDescription({
 
 export {
   Drawer,
-  DrawerPortal,
   DrawerOverlay,
   DrawerTrigger,
   DrawerClose,

@@ -7,7 +7,7 @@ Everything runs on Cloudflare's free plan.
 The repository only contains the placeholder domains `api.example.com` (API) and `dash.example.com` (web app). Your real values are supplied at deploy time and never committed. `apps/api/scripts/render-wrangler.ts` copies `wrangler.jsonc` to the gitignored `wrangler.deploy.jsonc` with these filled in:
 
 | Variable | Example | Used for |
-| --- | --- | --- |
+| -- | -- | -- |
 | `API_DOMAIN` | `api.mycompany.com` | the Worker's Custom Domain and `JWT_ISSUER` |
 | `WEB_ORIGIN` | `https://dash.mycompany.com` | `ALLOWED_ORIGINS` (space-separated for several) |
 | `D1_DATABASE_ID` | `xxxxxxxx-xxxx-…` | the D1 binding |

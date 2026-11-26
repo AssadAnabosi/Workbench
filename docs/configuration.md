@@ -5,7 +5,7 @@
 Non-secret values are `vars` in `wrangler.jsonc`; secrets are set with `wrangler secret put` (production) or in `apps/api/.dev.vars` (local, gitignored).
 
 | Name | Kind | Default | Purpose |
-| --- | --- | --- | --- |
+| -- | -- | -- | -- |
 | `ENVIRONMENT` | var | `production` | Reported by `GET /`. With `development` the API also accepts CORS origins from localhost and private network addresses (any port) and sets the refresh cookie without `Secure`, see below |
 | `API_PREFIX` | var | `""` | Optional prefix for every route, the cookie `Path` and the OpenAPI server URL |
 | `API_DOCS` | var | off | Only `"true"` serves `/openapi.json` and `/docs`; leave unset or `"false"` in production |
@@ -14,9 +14,9 @@ Non-secret values are `vars` in `wrangler.jsonc`; secrets are set with `wrangler
 | `REFRESH_MAX_AGE` | var | `30d` | Refresh token lifetime and cookie max-age |
 | `ALLOWED_ORIGINS` | var | `https://dash.example.com` | Space-separated exact CORS origins |
 | `PBKDF2_ITERATIONS` | var | `30000` | Password hash iterations (max 100000) |
-| `JWT_ACCESS_SECRET` | secret | | Signs access tokens |
-| `JWT_REFRESH_SECRET` | secret | | Signs refresh tokens |
-| `PASSWORD_PEPPER` | secret | | 32 random bytes, base64 |
+| `JWT_ACCESS_SECRET` | secret |  | Signs access tokens |
+| `JWT_REFRESH_SECRET` | secret |  | Signs refresh tokens |
+| `PASSWORD_PEPPER` | secret |  | 32 random bytes, base64 |
 | `PASSWORD_PEPPER_VERSION` | secret | `1` | Pepper version stored in each hash |
 
 ## Seed script
@@ -32,7 +32,7 @@ The admin variables are `ADMIN_FIRSTNAME` / `ADMIN_LASTNAME` (no underscore betw
 Copy `apps/web/.env.template` to `apps/web/.env`.
 
 | Name | Purpose |
-| --- | --- |
+| -- | -- |
 | `VITE_API_URL` | API base URL, e.g. `https://api.example.com` or `http://localhost:8787` |
 | `VITE_APP_TITLE` | App name used in the page title, meta tags and the PWA manifest (`Workbench`) |
 

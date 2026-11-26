@@ -16,7 +16,7 @@
 ## Repository layout
 
 | Path | Package | Purpose |
-| --- | --- | --- |
+| -- | -- | -- |
 | `apps/web` | `@workbench/web` | React + Vite PWA, deployed by Cloudflare Pages |
 | `apps/api` | `@workbench/api` | Cloudflare Worker (Hono, D1, Drizzle) |
 | `packages/shared` | `@workbench/shared` | Zod schemas and inferred types used by both apps |
@@ -38,7 +38,7 @@ The whole stack (static SPA, API, database, cron) runs on Cloudflare's free plan
 ## Free-plan budget
 
 | Piece | Limit | Notes |
-| --- | --- | --- |
+| -- | -- | -- |
 | Workers | 100,000 requests/day, 10 ms CPU per request | Login is the only heavy route |
 | D1 | 5 M rows read, 100 k rows written per day, 500 MB | The dataset grows by a few thousand rows a year |
 | Cron Triggers | included | The cleanup is two cheap `DELETE`s |

@@ -10,7 +10,7 @@
 ## Access matrix
 
 | Area | User | Spectator | Moderator | Administrator |
-| --- | --- | --- | --- | --- |
+| -- | -- | -- | -- | -- |
 | Own account (`/auth`, own password, own preferences) | yes | yes | yes | yes |
 | Logs (read) | own only | all | all | all |
 | Logs (create, update, delete) | no | no | yes | yes |
@@ -23,6 +23,7 @@
 ## Restrictions
 
 **User**
+
 - An administrator can't delete themself.
 - An administrator can't deactivate themself.
 - An administrator can't change their own role.
@@ -30,12 +31,15 @@
 - A moderator can't edit or delete any user.
 
 **Log**
+
 - A log's worker and date can't be changed.
 - A log has either a `startingTime` and a `finishingTime`, or `isAbsent = true`; never both and never neither.
 - A worker has at most one log per date.
 
 **Payee**
+
 - Deleting a payee sets the payee to null on its cheques.
 
 **Login**
+
 - Deactivated users can't log in; this is checked only after the password matches.

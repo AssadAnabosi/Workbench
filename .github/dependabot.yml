@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # GitHub Actions versions in .github/workflows/
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  # The Markdown formatter pinned in requirements-docs.txt
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly

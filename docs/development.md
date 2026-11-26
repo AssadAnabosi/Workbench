@@ -24,7 +24,7 @@ bun run dev:native
 ## Scripts
 
 | Script | Does |
-| --- | --- |
+| -- | -- |
 | `dev` | `docker compose watch` |
 | `dev:native` | API (`wrangler dev`) and web (`vite`) in parallel |
 | `db:generate` | `drizzle-kit generate` |

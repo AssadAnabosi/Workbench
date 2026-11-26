@@ -31,7 +31,7 @@ Numbers in major units (`120.5`) for `amount`, `value` and `payment`; numeric st
 ### List query parameters
 
 | Param | Meaning |
-| --- | --- |
+| -- | -- |
 | `from`, `to` | Date range; `from` is the start of that day and `to` the end of that day (UTC). If both are missing, the current month is used. (Not `start`/`end`.) |
 | `search` | Trimmed, case-insensitive substring match on the resource's text fields |
 | `filter` | Comma-separated IDs; each must be a valid UUID, otherwise 400 "Please provide a valid filter" |

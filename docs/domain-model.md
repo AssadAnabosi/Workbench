@@ -7,11 +7,11 @@ Every table has `id` (UUID v4, text), `created_at` and `updated_at` (epoch ms). 
 The **worker** who is allowed to access the app.
 
 | Field | Notes |
-| --- | --- |
-| `firstName`*, `lastName`* | |
-| `username`* | Unique, lowercased, `^[a-zA-Z0-9\-_.]+$` |
+| -- | -- |
+| `firstName`*, `lastName`* |  |
+| `username`\* | Unique, lowercased, `^[a-zA-Z0-9\-_.]+$` |
 | `email`, `phoneNumber` | Optional; email is lowercased |
-| `password`* | Stored as a salted, peppered PBKDF2 hash (see [auth.md](auth.md)) |
+| `password`\* | Stored as a salted, peppered PBKDF2 hash (see [auth.md](auth.md)) |
 | `role` | `User` (default), `Spectator`, `Moderator`, `Administrator` |
 | `active` | Whether the user may log in (default true) |
 | `loggable` | Whether the user is offered as the worker of a new log (default true). Only an administrator can change it, from the Settings tab of the user page. See below |
@@ -23,9 +23,9 @@ The **worker** who is allowed to access the app.
 The worksheet / timesheet record of a worker's day.
 
 | Field | Notes |
-| --- | --- |
-| `date`* | UTC midnight; unique together with `worker` |
-| `worker`* | The user this log belongs to |
+| -- | -- |
+| `date`\* | UTC midnight; unique together with `worker` |
+| `worker`\* | The user this log belongs to |
 | `isAbsent` | True when the worker was absent |
 | `startingTime`, `finishingTime` | Required together unless `isAbsent` |
 | `otv` | Overtime amount (default 0) |
@@ -43,17 +43,17 @@ To keep the worker lists short, a user with `loggable = false` is left out of th
 The person or company a cheque is made out to.
 
 | Field | Notes |
-| --- | --- |
-| `name`* | Unique |
+| -- | -- |
+| `name`\* | Unique |
 | `email`, `phoneNumber`, `remarks` | Optional |
 
 ## Cheque
 
 | Field | Notes |
-| --- | --- |
-| `serial`* | The number written on the cheque; unique |
-| `dueDate`* | Day the cheque is due |
-| `value`* | Amount on the cheque |
+| -- | -- |
+| `serial`\* | The number written on the cheque; unique |
+| `dueDate`\* | Day the cheque is due |
+| `value`\* | Amount on the cheque |
 | `payee` | Optional payee |
 | `isCancelled` | True when cancelled |
 | `remarks` | Optional notes |
@@ -63,11 +63,11 @@ The person or company a cheque is made out to.
 Money spent or received by the workshop.
 
 | Field | Notes |
-| --- | --- |
-| `date`* | Day of the bill |
-| `type`* | `expense` (shown as **Spent**) or `income` (shown as **Received**) |
-| `amount`* | Always positive; the sign lives only in `type` |
-| `description`* | |
+| -- | -- |
+| `date`\* | Day of the bill |
+| `type`\* | `expense` (shown as **Spent**) or `income` (shown as **Received**) |
+| `amount`\* | Always positive; the sign lives only in `type` |
+| `description`\* |  |
 | `remarks` | Optional notes |
 
 ## Session
@@ -75,11 +75,11 @@ Money spent or received by the workshop.
 One row per logged-in refresh token.
 
 | Field | Notes |
-| --- | --- |
-| `user`* | Owner of the session |
-| `refreshTokenHash`* | SHA-256 of the refresh token (the token itself is never stored) |
-| `ipAddress`* | Client IP at login |
-| `expiresAt`* | When the refresh token expires |
+| -- | -- |
+| `user`\* | Owner of the session |
+| `refreshTokenHash`\* | SHA-256 of the refresh token (the token itself is never stored) |
+| `ipAddress`\* | Client IP at login |
+| `expiresAt`\* | When the refresh token expires |
 
 ## Login attempt
 

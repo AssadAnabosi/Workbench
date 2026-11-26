@@ -166,13 +166,10 @@ function CommandEmpty(props: React.ComponentProps<typeof CommandEmptyPrimitive>)
 function CommandGroup({
   className,
   heading,
-  forceMount: _forceMount,
   children,
   ...props
 }: React.ComponentProps<typeof CommandGroupPrimitive> & {
   heading?: React.ReactNode;
-  /** Kept for the old call sites: a group stays while it has a forced item. */
-  forceMount?: boolean;
 }) {
   return (
     <CommandGroupPrimitive

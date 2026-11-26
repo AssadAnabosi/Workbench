@@ -59,7 +59,7 @@ function SearchBillsFallback({
 }) {
   const { t } = useTranslation();
   return (
-    <CommandGroup forceMount>
+    <CommandGroup>
       <CommandItem forceMount value={"\u0000"} onSelect={onSelect}>
         <Search />
         {t('Search bills for "{{query}}"', { query })}
@@ -316,10 +316,9 @@ export function CommandPalette() {
           placeholder={t("Search...")}
         />
         <CommandList>
-          {logoutFirst && <CommandGroup forceMount>{logoutItem}</CommandGroup>}
-          {/* forceMount on the group too: cmdk hides a group with no matching items */}
-          {serial && allowed.cheques && (
-            <CommandGroup forceMount>
+          {logoutFirst && <CommandGroup>{logoutItem}</CommandGroup>}
+                    {serial && allowed.cheques && (
+            <CommandGroup>
               {canWrite && (
                 <CommandItem
                   forceMount
@@ -345,7 +344,7 @@ export function CommandPalette() {
             </CommandGroup>
           )}
           {bill && allowed.billWrite && (
-            <CommandGroup forceMount>
+            <CommandGroup>
               <CommandItem
                 forceMount
                 value={`add bill ${bill.amount}`}

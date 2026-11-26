@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import type { DateRange } from "react-day-picker";
+import type { DateRangeValue as DateRange } from "@/components/ui/date-picker";
 
 import { isLetter } from "@/lib/shortcuts";
 
